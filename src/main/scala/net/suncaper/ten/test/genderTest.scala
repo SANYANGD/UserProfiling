@@ -23,35 +23,35 @@ object genderTest {
 
     val spark = SparkSession.builder()
       .appName("shc test")
-      .master("local")
+      .master("local[10]")
       .getOrCreate()
 
     import spark.implicits._
-
-    println("1")
 
     val readDF: DataFrame = spark.read
       .option(HBaseTableCatalog.tableCatalog, catalog)
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .load()
 
-    readDF.show(5,false)
+    println("1")
 
-//    def catalogWrite =
-//      s"""{
-//         |"table":{"namespace":"default", "name":"user_profile"},
-//         |"rowkey":"id",
-//         |"columns":{
-//         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-//         |"gender":{"cf":"cf", "col":"gender", "type":"string"}
-//         |}
-//         |}""".stripMargin
-//
-//    result.write
-//      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-//      .option(HBaseTableCatalog.newTable, "5")
-//      .format("org.apache.spark.sql.execution.datasources.hbase")
-//      .save()
+    readDF.show()
+
+    def catalogWrite =
+      s"""{
+         |"table":{"namespace":"default", "name":"dcy_test"},
+         |"rowkey":"id",
+         |"columns":{
+         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
+         |"gender":{"cf":"cf", "col":"gender", "type":"string"}
+         |}
+         |}""".stripMargin
+
+    readDF.write
+      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+      .option(HBaseTableCatalog.newTable, "5")
+      .format("org.apache.spark.sql.execution.datasources.hbase")
+      .save()
   }
 
 }
