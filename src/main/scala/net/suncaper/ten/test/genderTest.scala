@@ -37,21 +37,6 @@ object genderTest {
 
     readDF.show()
 
-//    def catalogWrite =
-//      s"""{
-//         |"table":{"namespace":"default", "name":"dcy_test"},
-//         |"rowkey":"id",
-//         |"columns":{
-//         |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-//         |"gender":{"cf":"cf", "col":"gender", "type":"string"}
-//         |}
-//         |}""".stripMargin
-//
-//    readDF.write
-//      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-//      .option(HBaseTableCatalog.newTable, "5")
-//      .format("org.apache.spark.sql.execution.datasources.hbase")
-//      .save()
   }
 
 }
