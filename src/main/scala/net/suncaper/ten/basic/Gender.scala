@@ -1,6 +1,5 @@
 package net.suncaper.ten.basic
 
-import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.expressions.Window

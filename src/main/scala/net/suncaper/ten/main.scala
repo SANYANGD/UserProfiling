@@ -9,11 +9,12 @@ object main {
 
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
-    val gender = new Gender
-    gender.genderWrite
-
-    val job = new Job
-    job.jobWrite
+//    val gender = new Gender
+//    gender.genderWrite
+//    val job = new Job
+//    job.jobWrite
+    val paymodel = new PaymentModel
+    paymodel.payModelWrite
 
   }
 
