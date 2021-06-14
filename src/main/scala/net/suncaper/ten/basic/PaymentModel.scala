@@ -45,6 +45,7 @@ class PaymentModel {
     .withColumn("row_num", row_number() over Window.partitionBy('memberId).orderBy('count.desc))
     .where('row_num === 1)
     .withColumnRenamed("memberId", "id").drop("count", "row_num")
+  //val result = source.select('memberId, 'paymentCode).orderBy('memberId)
 
   def payModelWrite ={
 

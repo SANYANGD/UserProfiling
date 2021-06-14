@@ -11,10 +11,15 @@ object main {
 
 //    val gender = new Gender
 //    gender.genderWrite
+
 //    val job = new Job
 //    job.jobWrite
-    val paymodel = new PaymentModel
-    paymodel.payModelWrite
+
+//    val paymodel = new PaymentModel
+//    paymodel.payModelWrite
+
+    val consumptioncycle = new ConsumptionCycle
+    consumptioncycle.consumptionCycleWrite
 
   }
 
