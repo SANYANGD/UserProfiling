@@ -15,11 +15,31 @@ object main {
 //    val job = new Job
 //    job.jobWrite
 
+//    val marriage = new Marriage
+//    marriage.marriageWrite
+
+//    val source = new Source
+//    source.sourceWrite
+
+//    val bigCustomerId = new BigCustomerId
+//    bigCustomerId.bigCustomerIdWrite
+
+//    val lastAddressId = new LastAddressId
+//    lastAddressId.lastAddressIdWrite
+
+//    val birthday = new Birthday
+//    birthday.birthdayWrite
+
+//    val qq = new QQ
+//    qq.qqWrite
+
+    val goodsBought = new GoodsBought
+//    goodsBought.goodsBoughtWrite
 //    val paymodel = new PaymentModel
 //    paymodel.payModelWrite
 
-    val consumptioncycle = new ConsumptionCycle
-    consumptioncycle.consumptionCycleWrite
+//    val consumptioncycle = new ConsumptionCycle
+//    consumptioncycle.consumptionCycleWrite
 
 //    val rfm = new RFMModel
 //    rfm.rfmModelWrite
