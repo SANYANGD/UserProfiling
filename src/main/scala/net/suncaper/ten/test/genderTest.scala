@@ -1,10 +1,8 @@
 package net.suncaper.ten.test
 
+import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.sql.functions._
-import org.apache.log4j.Logger
-import org.apache.log4j.Level
 
 object genderTest {
   def main(args: Array[String]): Unit = {
