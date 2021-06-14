@@ -21,6 +21,9 @@ object main {
     val consumptioncycle = new ConsumptionCycle
     consumptioncycle.consumptionCycleWrite
 
+//    val rfm = new RFMModel
+//    rfm.rfmModelWrite
+
   }
 
 }
