@@ -33,8 +33,9 @@ object main {
 //    val qq = new QQ
 //    qq.qqWrite
 
-    val goodsBought = new GoodsBought
+//    val goodsBought = new GoodsBought
 //    goodsBought.goodsBoughtWrite
+
 //    val paymodel = new PaymentModel
 //    paymodel.payModelWrite
 
@@ -43,6 +44,9 @@ object main {
 
 //    val rfm = new RFMModel
 //    rfm.rfmModelWrite
+
+    val paidAmount = new PaidAmount
+    paidAmount.paidAmountWrite
 
   }
 
