@@ -18,8 +18,11 @@ object main {
 //    val paymodel = new PaymentModel
 //    paymodel.payModelWrite
 
-    val consumptioncycle = new ConsumptionCycle
-    consumptioncycle.consumptionCycleWrite
+//    val consumptioncycle = new ConsumptionCycle
+//    consumptioncycle.consumptionCycleWrite
+
+    val paidamount = new PaidAmount
+    paidamount.paidAmountWrite
 
 //    val rfm = new RFMModel
 //    rfm.rfmModelWrite
