@@ -26,7 +26,7 @@ class Birthday {
        |}""".stripMargin
 
   val spark = SparkSession.builder()
-    .appName("shc test")
+    .appName("birthday")
     .master("local[10]")
     .getOrCreate()
 

@@ -1,6 +1,7 @@
 package net.suncaper.ten
 
-import net.suncaper.ten.basic.matching.{Nationality, PoliticalFace}
+import net.suncaper.ten.comb._
+import net.suncaper.ten.basic.matching._
 import org.apache.log4j.{Level, Logger}
 
 object main {
