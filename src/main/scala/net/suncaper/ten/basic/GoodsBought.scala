@@ -83,16 +83,16 @@ class GoodsBought {
   val goodsBoughtW = goodsBoughtS
     .select("users_id","username","productName")
 
-//  def goodsBoughtWrite= {
-    goodsBoughtS
-      .select("users_id","username","productName")
-      .show()
-    goodsBoughtW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
-//  }
+
+  goodsBoughtS
+    .select("users_id","username","productName")
+    .show()
+  goodsBoughtW.write
+    .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+    .option(HBaseTableCatalog.newTable, "5")
+    .format("org.apache.spark.sql.execution.datasources.hbase")
+    .save()
+
 
   spark.close()
 }

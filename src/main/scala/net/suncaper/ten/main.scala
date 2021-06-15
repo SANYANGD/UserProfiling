@@ -1,6 +1,6 @@
 package net.suncaper.ten
 
-import net.suncaper.ten.basic._
+import net.suncaper.ten.basic.LastLogin
 import org.apache.log4j.{Level, Logger}
 
 object main {
@@ -33,8 +33,17 @@ object main {
 //    val qq = new QQ
 //    qq.qqWrite
 
-    val goodsBought = new GoodsBought
-//    goodsBought.goodsBoughtWrite
+//    val goodsBought = new GoodsBought
+
+//    val ageGroup = new AgeGroup
+//    ageGroup.ageGroupWrite
+
+//    val logSession = new LogSession
+//    logSession.logSessionWrite
+
+    val lastLogin = new LastLogin
+    lastLogin.lastLoginWrite
+
 //    val paymodel = new PaymentModel
 //    paymodel.payModelWrite
 
