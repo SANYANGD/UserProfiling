@@ -45,8 +45,8 @@ object main {
 //    val rfm = new RFMModel
 //    rfm.rfmModelWrite
 
-//    val paidAmount = new PaidAmount
-//    paidAmount.paidAmountWrite
+    val paidAmount = new PaidAmount
+    paidAmount.paidAmountWrite
 
   }
 
