@@ -1,6 +1,5 @@
 package net.suncaper.ten
 
-import net.suncaper.ten.basic._
 import org.apache.log4j.{Level, Logger}
 
 object main {
@@ -45,8 +44,8 @@ object main {
 //    val rfm = new RFMModel
 //    rfm.rfmModelWrite
 
-    val paidAmount = new PaidAmount
-    paidAmount.paidAmountWrite
+//    val paidAmount = new PaidAmount
+//    paidAmount.paidAmountWrite
 
   }
 
