@@ -1,8 +1,8 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.statistics
 
-import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions.{when, _}
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class PaidAmount {
 

@@ -1,9 +1,10 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.matching
 
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class LastAddressId {
+class Job {
 
   def catalog =
     s"""{
@@ -11,7 +12,7 @@ class LastAddressId {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"lastAddressId":{"cf":"cf", "col":"lastAddressId", "type":"string"}
+       |"job":{"cf":"cf", "col":"job", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -21,7 +22,7 @@ class LastAddressId {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"lastAddressId":{"cf":"user", "col":"lastAddressId", "type":"string"}
+       |"job":{"cf":"user", "col":"job", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -37,16 +38,27 @@ class LastAddressId {
     .format("org.apache.spark.sql.execution.datasources.hbase")
     .load()
 
-  val lastAddressIdW = readDF
-  def lastAddressIdWrite={
-    readDF.show()
-    lastAddressIdW.show()
+  //职业；1学生、2公务员、3军人、4警察、5教师、6白领
+  val jobW = readDF.select('id,
+    when('job === "1", "学生")
+      .when('job === "2", "公务员")
+      .when('job === "3", "军人")
+      .when('job === "4", "警察")
+      .when('job === "5", "教师")
+      .when('job === "6", "白领")
+      .otherwise("其他")
+      .as("job")
+  )
 
-        lastAddressIdW.write
-          .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-          .option(HBaseTableCatalog.newTable, "5")
-          .format("org.apache.spark.sql.execution.datasources.hbase")
-          .save()
+  def jobWrite={
+    readDF.show()
+    jobW.show()
+
+    jobW.write
+      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+      .option(HBaseTableCatalog.newTable, "5")
+      .format("org.apache.spark.sql.execution.datasources.hbase")
+      .save()
 
     spark.close()
   }

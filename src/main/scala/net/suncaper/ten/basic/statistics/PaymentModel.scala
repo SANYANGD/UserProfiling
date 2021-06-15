@@ -1,9 +1,9 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.statistics
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class PaymentModel {
 

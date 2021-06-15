@@ -1,9 +1,9 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.matching
 
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class QQ {
+class Birthday {
 
   def catalog =
     s"""{
@@ -11,7 +11,7 @@ class QQ {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"qq":{"cf":"cf", "col":"qq", "type":"string"}
+       |"birthday":{"cf":"cf", "col":"birthday", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -21,7 +21,7 @@ class QQ {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"qq":{"cf":"user", "col":"qq", "type":"string"}
+       |"birthday":{"cf":"user", "col":"birthday", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -30,19 +30,18 @@ class QQ {
     .master("local[10]")
     .getOrCreate()
 
-  import spark.implicits._
-
   val readDF: DataFrame = spark.read
     .option(HBaseTableCatalog.tableCatalog, catalog)
     .format("org.apache.spark.sql.execution.datasources.hbase")
     .load()
 
-  val qqW = readDF
-  def qqWrite={
-    readDF.show()
-    qqW.show()
+  val birthdayW = readDF
 
-    qqW.write
+  def birthdayWrite={
+    readDF.show()
+    birthdayW.show()
+
+    birthdayW.write
       .option(HBaseTableCatalog.tableCatalog, catalogWrite)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")

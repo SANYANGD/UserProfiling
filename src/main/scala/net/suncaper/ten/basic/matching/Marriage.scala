@@ -1,11 +1,10 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.matching
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
-import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class Job {
+class Marriage {
 
   def catalog =
     s"""{
@@ -13,7 +12,7 @@ class Job {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"job":{"cf":"cf", "col":"job", "type":"string"}
+       |"marriage":{"cf":"cf", "col":"marriage", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -23,7 +22,7 @@ class Job {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"job":{"cf":"user", "col":"job", "type":"string"}
+       |"marriage":{"cf":"user", "col":"marriage", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -39,23 +38,20 @@ class Job {
     .format("org.apache.spark.sql.execution.datasources.hbase")
     .load()
 
-  //职业；1学生、2公务员、3军人、4警察、5教师、6白领
-  val jobW = readDF.select('id,
-    when('job === "1", "学生")
-      .when('job === "2", "公务员")
-      .when('job === "3", "军人")
-      .when('job === "4", "警察")
-      .when('job === "5", "教师")
-      .when('job === "6", "白领")
+  //婚姻状况：1未婚，2已婚，3离异
+  val marriageW = readDF.select('id,
+    when('marriage === "1", "未婚")
+      .when('marriage === "2", "已婚")
+      .when('marriage === "3", "离异")
       .otherwise("其他")
-      .as("job")
+      .as("marriage")
   )
 
-  def jobWrite={
+  def marriageWrite={
     readDF.show()
-    jobW.show()
+    marriageW.show()
 
-    jobW.write
+    marriageW.write
       .option(HBaseTableCatalog.tableCatalog, catalogWrite)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")

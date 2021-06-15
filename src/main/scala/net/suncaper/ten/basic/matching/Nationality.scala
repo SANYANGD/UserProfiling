@@ -1,58 +1,59 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.matching
 
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.functions.when
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class Marriage {
+class Nationality {
 
-  def catalog =
+  def catalogGenderRead =
     s"""{
        |"table":{"namespace":"default", "name":"tbl_users"},
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"marriage":{"cf":"cf", "col":"marriage", "type":"string"}
+       |"nationality":{"cf":"cf", "col":"nationality", "type":"string"}
        |}
        |}""".stripMargin
 
-  def catalogWrite =
+  def catalogGenderWrite =
     s"""{
        |"table":{"namespace":"default", "name":"aft_basic_user"},
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"marriage":{"cf":"user", "col":"marriage", "type":"string"}
+       |"nationality":{"cf":"user", "col":"nationality", "type":"string"}
        |}
        |}""".stripMargin
 
   val spark = SparkSession.builder()
-    .appName("shc test")
+    .appName("nationality")
     .master("local[10]")
     .getOrCreate()
 
   import spark.implicits._
 
   val readDF: DataFrame = spark.read
-    .option(HBaseTableCatalog.tableCatalog, catalog)
+    .option(HBaseTableCatalog.tableCatalog, catalogGenderRead)
     .format("org.apache.spark.sql.execution.datasources.hbase")
     .load()
 
-  //婚姻状况：1未婚，2已婚，3离异
-  val marriageW = readDF.select('id,
-    when('marriage === "1", "未婚")
-      .when('marriage === "2", "已婚")
-      .when('marriage === "3", "离异")
-      .otherwise("其他")
-      .as("marriage")
-  )
+  val result = readDF.select('id,
+    when('nationality === "1", "中国大陆")
+      .when('nationality === "2", "中国香港")
+      .when('nationality === "3", "中国澳门")
+      .when('nationality === "4", "中国台湾")
+      .when('nationality === "5", "其他")
+      .otherwise("未知")
+      .as("nationality"))
 
-  def marriageWrite={
+  def nationalityFaceWrite = {
+
     readDF.show()
-    marriageW.show()
+    result.show()
 
-    marriageW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+    result.write
+      .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
       .option(HBaseTableCatalog.newTable, "5")
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .save()
