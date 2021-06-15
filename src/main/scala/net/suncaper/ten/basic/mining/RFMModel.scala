@@ -1,10 +1,10 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.mining
 
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions}
 
 class RFMModel {
 

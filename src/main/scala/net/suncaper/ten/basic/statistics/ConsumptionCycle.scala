@@ -1,10 +1,8 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.statistics
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
-import org.apache.spark.sql.expressions.Window
-import org.apache.spark.sql.functions.{count, current_timestamp, date_sub, datediff, from_unixtime, max, row_number, when}
-import org.apache.spark.sql.sources.LessThanOrEqual
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class ConsumptionCycle {
 

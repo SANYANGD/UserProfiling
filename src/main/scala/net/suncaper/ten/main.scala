@@ -1,6 +1,6 @@
 package net.suncaper.ten
 
-import net.suncaper.ten.basic.Comb
+import net.suncaper.ten.basic.matching.{Nationality, PoliticalFace}
 import org.apache.log4j.{Level, Logger}
 
 object main {
@@ -48,9 +48,11 @@ object main {
 //    val paidAmount = new PaidAmount
 //    paidAmount.paidAmountWrite
 
-  val comb = new Comb
+//    val politicalFace = new PoliticalFace
+//    politicalFace.politicalFaceWrite
 
-
+    val nationality = new Nationality
+    nationality.nationalityFaceWrite
 
   }
 
