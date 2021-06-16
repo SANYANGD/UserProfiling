@@ -1,4 +1,4 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.comb
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
