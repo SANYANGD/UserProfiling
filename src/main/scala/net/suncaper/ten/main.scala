@@ -2,6 +2,7 @@ package net.suncaper.ten
 
 import net.suncaper.ten.comb._
 import net.suncaper.ten.basic.matching._
+import net.suncaper.ten.basic.statistics.Constellation
 import org.apache.log4j.{Level, Logger}
 
 object main {
@@ -52,8 +53,11 @@ object main {
 //    val politicalFace = new PoliticalFace
 //    politicalFace.politicalFaceWrite
 
-    val nationality = new Nationality
-    nationality.nationalityFaceWrite
+//    val nationality = new Nationality
+//    nationality.nationalityFaceWrite
+
+    val constellation = new Constellation
+    constellation.constellationWrite
 
   }
 
