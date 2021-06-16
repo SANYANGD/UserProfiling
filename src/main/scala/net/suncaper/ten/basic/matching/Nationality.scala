@@ -6,6 +6,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class Nationality {
 
+
   def catalogGenderRead =
     s"""{
        |"table":{"namespace":"default", "name":"tbl_users"},
