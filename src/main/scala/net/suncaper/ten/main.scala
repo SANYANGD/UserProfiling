@@ -4,6 +4,7 @@ import net.suncaper.ten.comb._
 import net.suncaper.ten.basic.matching._
 import net.suncaper.ten.basic.mining._
 import net.suncaper.ten.basic.statistics._
+import net.suncaper.ten.basic.PolicemanMaxOrder
 import org.apache.log4j.{Level, Logger}
 
 object main {
@@ -67,6 +68,10 @@ object main {
 
     println(1)
 
+//    val nationality = new Nationality
+//    nationality.nationalityFaceWrite
+
+    val policemanMaxOrder = new PolicemanMaxOrder
 
   }
 

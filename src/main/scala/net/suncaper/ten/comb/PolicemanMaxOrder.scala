@@ -3,7 +3,7 @@ package net.suncaper.ten.comb
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 
-class Comb {
+class PolicemanMaxOrder {
   //单笔最高10000以上的男警察
   //用到的表
   //user:gender
@@ -18,8 +18,15 @@ class Comb {
        |"columns":{
        |"user_id":{"cf":"rowkey","col":"id", "type":"string"},
        |"ageGroup":{"cf":"user","col":"ageGroup","type":"string"},
+       |"birthday":{"cf":"user","col":"birthday","type":"string"},
        |"gender":{"cf":"user","col":"gender","type":"string"},
-       |"job":{"cf":"user","col":"job","type":"string"}
+       |"job":{"cf":"user","col":"job","type":"string"},
+       |"lastAddressId":{"cf":"user","col":"lastAddressId","type":"string"},
+       |"nationality":{"cf":"user","col":"nationality","type":"string"},
+       |"marriage":{"cf":"user","col":"marriage","type":"string"},
+       |"politicalFace":{"cf":"user","col":"politicalFace","type":"string"},
+       |"qq":{"cf":"user","col":"qq","type":"string"},
+       |"source":{"cf":"user","col":"source","type":"string"}
        |}
        |}""".stripMargin
 
@@ -41,10 +48,17 @@ class Comb {
        |"rowkey":"id",
        |"columns":{
        |"user_id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"gender":{"cf":"comb", "col":"gender", "type":"string"},
+       |"maxOrderAmount":{"cf":"comb", "col":"maxOrderAmount", "type":"string"},
        |"ageGroup":{"cf":"comb","col":"ageGroup","type":"string"},
+       |"birthday":{"cf":"comb","col":"birthday","type":"string"},
+       |"gender":{"cf":"comb","col":"gender","type":"string"},
        |"job":{"cf":"comb","col":"job","type":"string"},
-       |"maxOrderAmount":{"cf":"comb", "col":"maxOrderAmount", "type":"string"}
+       |"lastAddressId":{"cf":"comb","col":"lastAddressId","type":"string"},
+       |"nationality":{"cf":"comb","col":"nationality","type":"string"},
+       |"marriage":{"cf":"comb","col":"marriage","type":"string"},
+       |"politicalFace":{"cf":"comb","col":"politicalFace","type":"string"},
+       |"qq":{"cf":"comb","col":"qq","type":"string"},
+       |"source":{"cf":"comb","col":"source","type":"string"}
        |}
        |}""".stripMargin
 
@@ -72,7 +86,8 @@ class Comb {
     .where('maxOrderAmount === "10000-")
 
   val goodsBoughtW = goodsBoughtS
-      .select('user_id,'gender,'ageGroup,'job,'maxOrderAmount)
+      .select('user_id,'maxOrderAmount,'ageGroup,'birthday,'gender,'job,
+        'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'source)
 
   goodsBoughtS
     .show()
