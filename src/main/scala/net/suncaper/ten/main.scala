@@ -1,9 +1,6 @@
 package net.suncaper.ten
 
-import net.suncaper.ten.comb._
-import net.suncaper.ten.basic.matching._
-import net.suncaper.ten.basic.mining.RFMModel
-import net.suncaper.ten.basic.statistics.Constellation
+import net.suncaper.ten.basic.PolicemanMaxOrder
 import org.apache.log4j.{Level, Logger}
 
 object main {
@@ -59,8 +56,10 @@ object main {
 //    constellation.constellationWrite
 
 
-    val rfm = new RFMModel
-    rfm.rfmModelWrite
+//    val nationality = new Nationality
+//    nationality.nationalityFaceWrite
+
+    val policemanMaxOrder = new PolicemanMaxOrder
 
   }
 
