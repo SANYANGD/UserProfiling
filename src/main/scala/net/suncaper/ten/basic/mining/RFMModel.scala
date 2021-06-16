@@ -21,8 +21,18 @@ class RFMModel {
        |  }
        |}""".stripMargin
 
+  def catalogWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"aft_basic_biz"},
+       |"rowkey":"id",
+       |"columns":{
+       |  "id":{"cf":"rowkey", "col":"id", "type":"string"},
+       |  "userValue":{"cf":"biz", "col":"userValue", "type":"string"}
+       |}
+       |}""".stripMargin
+
   val spark = SparkSession.builder()
-    .appName("shc test")
+    .appName("RFMModel")
     .master("local[10]")
     .getOrCreate()
 
@@ -95,9 +105,27 @@ class RFMModel {
 
   val predicted = model.transform(vectorDF)
 
+  val result = predicted.select('*,
+    when('predict === "1", "高价值用户")
+      .when('predict === "0", "低价值用户")
+      .otherwise("其他")
+      .as("userValue"))
+    .drop('rencency).drop('frequency)
+    .drop('moneyTotal).drop('feature).drop('predict)
+    .withColumnRenamed("memberId", "id")
+
   //TODO: 将结果写入HBASE
   def rfmModelWrite={
     predicted.show()
+    result.show()
+
+    result.write
+      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+      .option(HBaseTableCatalog.newTable, "5")
+      .format("org.apache.spark.sql.execution.datasources.hbase")
+      .save()
+
+    spark.close()
 
   }
 
