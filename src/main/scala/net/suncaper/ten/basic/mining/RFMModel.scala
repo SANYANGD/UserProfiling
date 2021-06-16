@@ -125,7 +125,7 @@ class RFMModel {
       .format("org.apache.spark.sql.execution.datasources.hbase")
       .save()
 
-    spark.close()
+    println("111")
 
   }
 
