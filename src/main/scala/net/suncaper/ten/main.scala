@@ -1,6 +1,5 @@
 package net.suncaper.ten
 
-import net.suncaper.ten.comb._
 import net.suncaper.ten.basic.matching._
 import net.suncaper.ten.basic.mining._
 import net.suncaper.ten.basic.statistics._
@@ -70,7 +69,7 @@ class MyThread extends Thread {
     politicalFace.politicalFaceWrite
 
     val nationality = new Nationality
-    nationality.nationalityFaceWrite
+    nationality.nationalityWrite
 
 
   }
@@ -97,28 +96,37 @@ object main {
 
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
-    val thDay = new MyThread
-    thDay.setName("updateDay")
-    thDay.start()
+//    val thDay = new MyThread
+//    thDay.setName("updateDay")
+//    thDay.start()
+//
+//    val thWeek = new MyThread
+//    thWeek.setName("updateWeek")
+//    thWeek.start()
+//
+//    val thHalfYear = new MyThread
+//    thHalfYear.setName("updateHalfYear")
+//    thHalfYear.start()
+//
+//    val thYear = new MyThread
+//    thYear.setName("updateYear")
+//    thYear.start()
+//
+//    val thNone = new MyThread
+//    thNone.setName("updateNone")
+//    thNone.start()
 
-    val thWeek = new MyThread
-    thWeek.setName("updateWeek")
-    thWeek.start()
+//    val lastLoginTime = new LastLoginTime
+//    lastLoginTime.LastLoginTimeWrite
 
-    val thHalfYear = new MyThread
-    thHalfYear.setName("updateHalfYear")
-    thHalfYear.start()
+//    val registerTime = new RegisterTime
+//    registerTime.registerTimeWrite
 
-    val thYear = new MyThread
-    thYear.setName("updateYear")
-    thYear.start()
+//    val mobile = new Mobile
+//    mobile.mobileWrite
 
-    val thNone = new MyThread
-    thNone.setName("updateNone")
-    thNone.start()
-
-
-
+    val email = new Email
+    email.emailWrite
   }
 
 }

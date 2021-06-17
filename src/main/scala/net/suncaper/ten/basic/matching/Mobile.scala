@@ -1,10 +1,9 @@
 package net.suncaper.ten.basic.matching
 
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
-import org.apache.spark.sql.functions.when
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class Nationality {
+class Mobile {
 
 
   def catalogGenderRead =
@@ -13,7 +12,7 @@ class Nationality {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"nationality":{"cf":"cf", "col":"nationality", "type":"string"}
+       |"mobile":{"cf":"cf", "col":"mobile", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -23,12 +22,12 @@ class Nationality {
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"nationality":{"cf":"user", "col":"nationality", "type":"string"}
+       |"mobile":{"cf":"user", "col":"mobile", "type":"string"}
        |}
        |}""".stripMargin
 
   val spark = SparkSession.builder()
-    .appName("nationality")
+    .appName("mobile")
     .master("local[10]")
     .getOrCreate()
 
@@ -39,16 +38,9 @@ class Nationality {
     .format("org.apache.spark.sql.execution.datasources.hbase")
     .load()
 
-  val result = readDF.select('id,
-    when('nationality === "1", "中国大陆")
-      .when('nationality === "2", "中国香港")
-      .when('nationality === "3", "中国澳门")
-      .when('nationality === "4", "中国台湾")
-      .when('nationality === "5", "其他")
-      .otherwise("未知")
-      .as("nationality"))
+  val result = readDF
 
-  def nationalityWrite = {
+  def mobileWrite = {
 
     readDF.show()
     result.show()
@@ -67,7 +59,7 @@ class Nationality {
 
     }finally{
 
-      println("nationalityWrite finish")
+      println("mobileWrite finish")
 
     }
 
