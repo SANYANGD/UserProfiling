@@ -28,6 +28,9 @@ object main {
         val lastAddressId = new LastAddressId
         lastAddressId.lastAddressIdWrite
 
+        val lastLoginTime = new LastLoginTime
+        lastLoginTime.LastLoginTimeWrite
+
         val paymodel = new PaymentModel
         paymodel.payModelWrite
 
@@ -116,6 +119,15 @@ object main {
         val nationality = new Nationality
         nationality.nationalityWrite
 
+        val mobile = new Mobile
+        mobile.mobileWrite
+
+        val email = new Email
+        email.emailWrite
+
+        val username = new Username
+        username.usernameWrite
+
         //发送信息后程序停止3秒
         TimeUnit.SECONDS.sleep(60*60*24*365)
 
@@ -139,6 +151,9 @@ object main {
       val constellation = new Constellation
       constellation.constellationWrite
 
+      val registerTime = new RegisterTime
+      registerTime.registerTimeWrite
+
     }
 
   }
@@ -148,16 +163,15 @@ object main {
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
     //调用start方法启动
-    new updateDay().start()
-    new updateWeek().start()
-    new updateHalfYear().start()
-    new updateYear().start()
-    new updateNone().start()
+//    new updateDay().start()
+//    new updateWeek().start()
+//    new updateHalfYear().start()
+//    new updateYear().start()
+//    new updateNone().start()
 
 
-
-//    val lastLoginTime = new LastLoginTime
-//    lastLoginTime.LastLoginTimeWrite
+//    val orderstatue = new OrderStatus
+//    orderstatue.orderStatusWrite
 
 //    val registerTime = new RegisterTime
 //    registerTime.registerTimeWrite

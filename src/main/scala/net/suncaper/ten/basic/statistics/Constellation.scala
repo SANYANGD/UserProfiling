@@ -36,28 +36,35 @@ class Constellation {
     .format("org.apache.spark.sql.execution.datasources.hbase")
     .load()
 
-  var result = readDF
+  val transCon = (date: String) => {
+    val bir = date.split('-')
+    val month = bir.apply(1)
+    val day = date.apply(2).toInt
+    month match {
+      case "01"=> if(day<21) "摩羯座" else "水瓶座"
+      case "02"=> if(day<20) "水瓶座" else "双鱼座"
+      case "03"=> if(day<21) "双鱼座" else "白羊座"
+      case "04"=> if(day<21) "白羊座" else "金牛座"
+      case "05"=> if(day<22) "金牛座" else "双子座"
+      case "06"=> if(day<22) "双子座" else "巨蟹座"
+      case "07"=> if(day<23) "巨蟹座" else "狮子座"
+      case "08"=> if(day<24) "狮子座" else "处女座"
+      case "09"=> if(day<24) "处女座" else "天秤座"
+      case "10"=> if(day<24) "天秤座" else "天蝎座"
+      case "11"=> if(day<23) "天蝎座" else "射手座"
+      case "12"=> if(day<22) "射手座" else "摩羯座"
+    }
+  }
 
-//  val dayArr = Array[Int](20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22)
-//  val constellationArr = Array[String]("摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座",
-//    "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座")
-//  def getConstellation(month: Int, day: Int): String = {
-//    if (day < dayArr(month - 1)) constellationArr(month - 1)
-//    else constellationArr(month)
-//  }
-//  def conCon():Array[Array[String]]={
-//    var i = 0
-//    var t = Array.ofDim[String](result.length, 2)
-//    for (i <- 0 to result.length){
-//      var month = result(i)(1).toString.split("-")(1).toInt
-//      var day = result(i)(1).toString.split("-")(2).toInt
-//      t(i)(1) = getConstellation(month, day)
-//    }
-//    println(t)
-//    t
-//  }
+  spark.udf.register("transCon",transCon)
+
+  readDF.createTempView("tb")
+
+  val result = spark.sql("select id, transCon(birthday) as constellation from tb")
+    .toDF()
 
   def constellationWrite={
+
     readDF.show()
     result.show()
 
