@@ -167,6 +167,9 @@ object main {
 
 //    val email = new Email
 //    email.emailWrite
+
+    val username = new Username
+    username.usernameWrite
   }
 
 }
