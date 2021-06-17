@@ -83,15 +83,33 @@ class GoodsBought {
     .select("users_id","username","productName")
 
 
-  goodsBoughtS
-    .select("users_id","username","productName")
-    .show()
-  goodsBoughtW.write
-    .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-    .option(HBaseTableCatalog.newTable, "5")
-    .format("org.apache.spark.sql.execution.datasources.hbase")
-    .save()
+  def goodsBoughtWrite={
+
+    goodsBoughtS.show()
 
 
-  spark.close()
+    try{
+
+      goodsBoughtW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("goodsBoughtW finish")
+
+    }
+
+
+
+    spark.close()
+
+  }
+
 }

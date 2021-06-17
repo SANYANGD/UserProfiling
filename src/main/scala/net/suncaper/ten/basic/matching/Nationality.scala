@@ -53,11 +53,25 @@ class Nationality {
     readDF.show()
     result.show()
 
-    result.write
-      .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      result.write
+        .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("nationalityFaceWrite finish")
+
+    }
+
+
 
     spark.close()
   }

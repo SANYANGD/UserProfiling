@@ -55,11 +55,25 @@ class AgeGroup {
     readDF.show()
     ageGroupW.show()
 
-    ageGroupW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      ageGroupW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("ageGroupW finish")
+
+    }
+
+
 
     spark.close()
   }

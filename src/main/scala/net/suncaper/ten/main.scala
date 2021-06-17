@@ -4,8 +4,9 @@ import net.suncaper.ten.comb._
 import net.suncaper.ten.basic.matching._
 import net.suncaper.ten.basic.mining._
 import net.suncaper.ten.basic.statistics._
-import net.suncaper.ten.basic.PolicemanMaxOrder
+import net.suncaper.ten.comb.PolicemanMaxOrder
 import org.apache.log4j.{Level, Logger}
+
 
 object main {
 
@@ -13,11 +14,25 @@ object main {
 
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
-//    val gender = new Gender
-//    gender.genderWrite
+//    val start = System.nanoTime()
 //
-//    val job = new Job
-//    job.jobWrite
+//    def time[R](block: => R): R = {
+//
+//      val result = block // call-by-name
+//      val end = System.nanoTime()
+//      println(end - start)
+//      result
+//
+//    }
+//
+//    println(System.nanoTime())
+
+
+    val gender = new Gender
+    gender.genderWrite
+
+    val job = new Job
+    job.jobWrite
 //
 //    val birthday = new Birthday
 //    birthday.birthdayWrite
@@ -60,18 +75,17 @@ object main {
 //    constellation.constellationWrite
 
 
-    val rfm = new RFMModel
-    rfm.rfmModelWrite
+//    val rfm = new RFMModel
+//    rfm.rfmModelWrite
 //
 //    val prm = new ProductRecommendationModel
 //    prm.pr()
 
-    println(1)
 
 //    val nationality = new Nationality
 //    nationality.nationalityFaceWrite
 
-    val policemanMaxOrder = new PolicemanMaxOrder
+//    val policemanMaxOrder = new PolicemanMaxOrder
 
   }
 

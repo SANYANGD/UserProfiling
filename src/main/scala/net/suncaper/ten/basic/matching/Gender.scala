@@ -50,13 +50,26 @@ class Gender {
     readDF.show()
     genderW.show()
 
-    genderW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      genderW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("genderWrite finish")
+
+    }
 
     spark.close()
+
   }
 
 }

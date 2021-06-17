@@ -89,15 +89,34 @@ class PolicemanMaxOrder {
       .select('user_id,'maxOrderAmount,'ageGroup,'birthday,'gender,'job,
         'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'source)
 
-  goodsBoughtS
-    .show()
 
-  goodsBoughtW.write
-    .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-    .option(HBaseTableCatalog.newTable, "5")
-    .format("org.apache.spark.sql.execution.datasources.hbase")
-    .save()
+  def goodsBoughtWrite ={
+
+    goodsBoughtS
+      .show()
+
+    try{
+
+      goodsBoughtW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("goodsBoughtWrite finish")
+
+    }
 
 
-  spark.close()
+    spark.close()
+
+  }
+
+
 }

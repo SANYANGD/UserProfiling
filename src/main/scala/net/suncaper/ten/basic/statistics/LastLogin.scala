@@ -52,11 +52,25 @@ class LastLogin {
     readDF.show()
     lastLoginW.show()
 
-    lastLoginW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      lastLoginW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("lastLoginWrite finish")
+
+    }
+
+
 
     spark.close()
   }

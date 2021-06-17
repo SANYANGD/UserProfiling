@@ -48,14 +48,29 @@ class Marriage {
   )
 
   def marriageWrite={
+
     readDF.show()
     marriageW.show()
 
-    marriageW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      marriageW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("marriageW finish")
+
+    }
+
+
 
     spark.close()
   }

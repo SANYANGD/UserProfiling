@@ -37,14 +37,29 @@ class BigCustomerId {
 
   val bigCustomerIdW = readDF
   def bigCustomerIdWrite={
+
     readDF.show()
     bigCustomerIdW.show()
 
-    bigCustomerIdW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      bigCustomerIdW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("bigCustomerIdW finish")
+
+    }
+
+
 
     spark.close()
   }

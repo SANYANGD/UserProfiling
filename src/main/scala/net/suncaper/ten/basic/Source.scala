@@ -41,16 +41,32 @@ class Source {
   val sourceW = readDF
 
   def sourceWrite={
+
     readDF.show()
     sourceW.show()
 
-    sourceW.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+    try{
+
+      sourceW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("sourceWrite finish")
+
+    }
+
+
 
     spark.close()
+
   }
 
 }
