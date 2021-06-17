@@ -1,4 +1,4 @@
-package net.suncaper.ten.basic
+package net.suncaper.ten.basic.matching
 
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -29,8 +29,6 @@ class Source {
     .appName("shc test")
     .master("local[10]")
     .getOrCreate()
-
-  import spark.implicits._
 
   val readDF: DataFrame = spark.read
     .option(HBaseTableCatalog.tableCatalog, catalog)
