@@ -47,7 +47,7 @@ object main {
         val policemanMaxOrder = new PolicemanMaxOrder
 
         //发送信息后程序停止 秒
-        TimeUnit.SECONDS.sleep(3)
+        TimeUnit.SECONDS.sleep(60*60*24)
       }
 
     }
@@ -65,7 +65,7 @@ object main {
         consumptioncycle.consumptionCycleWrite
 
         //发送信息后程序停止 秒
-        TimeUnit.SECONDS.sleep(30)
+        TimeUnit.SECONDS.sleep(60*60*24*7)
 
       }
 
@@ -84,7 +84,7 @@ object main {
         source.sourceWrite
 
         //发送信息后程序停止3秒
-        TimeUnit.SECONDS.sleep(3)
+        TimeUnit.SECONDS.sleep(60*60*12*365)
 
       }
 
@@ -112,10 +112,10 @@ object main {
         politicalFace.politicalFaceWrite
 
         val nationality = new Nationality
-        nationality.nationalityFaceWrite
+        nationality.nationalityWrite
 
         //发送信息后程序停止3秒
-        TimeUnit.SECONDS.sleep(3)
+        TimeUnit.SECONDS.sleep(60*60*24*365)
 
       }
 
