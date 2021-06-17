@@ -1,14 +1,15 @@
 package net.suncaper.ten
 
 
-import net.suncaper.ten.comb._
+import java.text.SimpleDateFormat
+import java.util.Date
+
 import net.suncaper.ten.basic.matching._
 import net.suncaper.ten.basic.mining._
 import net.suncaper.ten.basic.statistics._
 import net.suncaper.ten.comb.PolicemanMaxOrder
 import org.apache.log4j.{Level, Logger}
-import java.text.SimpleDateFormat
-import java.util.Date
+
 import scala.actors.Actor
 import scala.actors.threadpool.TimeUnit
 
@@ -112,7 +113,7 @@ object main {
         politicalFace.politicalFaceWrite
 
         val nationality = new Nationality
-        nationality.nationalityFaceWrite
+        nationality.nationalityWrite
 
         //发送信息后程序停止3秒
         TimeUnit.SECONDS.sleep(3)
@@ -152,25 +153,7 @@ object main {
     new updateYear().start()
     new updateNone().start()
 
-//    val thDay = new MyThread
-//    thDay.setName("updateDay")
-//    thDay.start()
-//
-//    val thWeek = new MyThread
-//    thWeek.setName("updateWeek")
-//    thWeek.start()
-//
-//    val thHalfYear = new MyThread
-//    thHalfYear.setName("updateHalfYear")
-//    thHalfYear.start()
-//
-//    val thYear = new MyThread
-//    thYear.setName("updateYear")
-//    thYear.start()
-//
-//    val thNone = new MyThread
-//    thNone.setName("updateNone")
-//    thNone.start()
+
 
 //    val lastLoginTime = new LastLoginTime
 //    lastLoginTime.LastLoginTimeWrite
@@ -181,8 +164,8 @@ object main {
 //    val mobile = new Mobile
 //    mobile.mobileWrite
 
-    val email = new Email
-    email.emailWrite
+//    val email = new Email
+//    email.emailWrite
   }
 
 }
