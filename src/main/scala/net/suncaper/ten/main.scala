@@ -168,8 +168,11 @@ object main {
 //    val email = new Email
 //    email.emailWrite
 
-    val username = new Username
-    username.usernameWrite
+//    val username = new Username
+//    username.usernameWrite
+
+    val money = new Money
+    money.moneyWrite
   }
 
 }
