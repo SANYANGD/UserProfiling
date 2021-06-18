@@ -188,8 +188,8 @@ object main {
 //    val money = new Money
 //    money.moneyWrite
 
-    val spendingPower = new SpendingPowerRFM
-    spendingPower.spendingPowerWrite
+//    val spendingPower = new SpendingPowerRFM
+//    spendingPower.spendingPowerWrite
 
 //    val nationality = new Nationality
 //    nationality.nationalityWrite
@@ -212,9 +212,17 @@ object main {
 //    val consumptionCycle = new ConsumptionCycle
 //    consumptionCycle.consumptionCycleWrite
 
-    val constellation = new Constellation
-    constellation.constellationWrite
+//    val constellation = new Constellation
+//    constellation.constellationWrite
 
+//    val browseTime = new BrowseTime
+//    browseTime.browseTimeWrite
+
+//    val paidAmount = new PaidAmount
+//    paidAmount.paidAmountWrite
+
+    val paymentModel = new PaymentModel
+    paymentModel.payModelWrite
   }
 
 }

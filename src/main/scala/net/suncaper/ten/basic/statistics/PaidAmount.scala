@@ -28,6 +28,25 @@ class PaidAmount {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"maxOrderAmount",
+       |"columns":{
+       |"maxOrderAmount":{"cf":"rowkey", "col":"maxOrderAmount", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+
+  def finalAvgWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"avgOrderAmount",
+       |"columns":{
+       |"avgOrderAmount":{"cf":"rowkey", "col":"avgOrderAmount", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
   val spark = SparkSession.builder()
     .appName("OrderAmount")
     .master("local[10]")
@@ -46,40 +65,66 @@ class PaidAmount {
     .agg(avg('orderAmount) as "avg", max('orderAmount) as "max")
 
   result = result.select('*,
-    when('avg <= 999 and ('avg > 1), "1-999").
-      when('avg <= 2999 and ('avg > 999), "1000-2999").
-      when('avg <= 4999 and ('avg > 2999), "3000-4999").
-      when('avg <= 9999 and ('avg > 4999), "5000-9999").
-      otherwise("10000-").as("avgOrderAmount")).drop("avg")
+    when('avg <= 999 and ('avg > 1), "单价：1-999").
+      when('avg <= 2999 and ('avg > 999), "单价：1000-2999").
+      when('avg <= 4999 and ('avg > 2999), "单价：3000-4999").
+      when('avg <= 9999 and ('avg > 4999), "单价：5000-9999").
+      otherwise("单价：10000-").as("avgOrderAmount")).drop("avg")
 
   result = result.select('*,
-    when('max <= 999 and ('max > 1), "1-999").
-      when('max <= 2999 and ('max > 999), "1000-2999").
-      when('max <= 4999 and ('max > 2999), "3000-4999").
-      when('max <= 9999 and ('max > 4999), "5000-9999").
-      otherwise("10000-").as("maxOrderAmount")).drop("max").
+    when('max <= 999 and ('max > 1), "最高：1-999").
+      when('max <= 2999 and ('max > 999), "最高：1000-2999").
+      when('max <= 4999 and ('max > 2999), "最高：3000-4999").
+      when('max <= 9999 and ('max > 4999), "最高：5000-9999").
+      otherwise("最高：10000-").as("maxOrderAmount")).drop("max").
     withColumnRenamed("memberId", "id")
+  
+  val finalPaidAmountW = result
+    .select('id,'maxOrderAmount)
+    .groupBy('maxOrderAmount)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
 
+  val finalAvgPaidAmountW = result
+    .select('id,'avgOrderAmount)
+    .groupBy('avgOrderAmount)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
+  
   def paidAmountWrite = {
 
-    source.show()
-    result.show()
-
+//    source.show()
+//    result.show()
+//    finalPaidAmountW.show()
+//    finalAvgPaidAmountW.show()
     try{
 
-      result.write
-        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//      result.write
+//        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//        .option(HBaseTableCatalog.newTable, "5")
+//        .format("org.apache.spark.sql.execution.datasources.hbase")
+//        .save()
+
+      finalPaidAmountW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+//      finalAvgPaidAmountW.write
+//        .option(HBaseTableCatalog.tableCatalog, finalAvgWrite)
+//        .option(HBaseTableCatalog.newTable, "5")
+//        .format("org.apache.spark.sql.execution.datasources.hbase")
+//        .save()
     }catch {
 
       case ex: IllegalArgumentException =>
 
     }finally{
 
-      println("logSessionWrite finish")
+      println("PaidAmount finish")
 
     }
 

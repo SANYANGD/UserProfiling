@@ -27,7 +27,15 @@ class BrowseTime {
        |}
        |}""".stripMargin
 
-
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"browseTime",
+       |"columns":{
+       |"browseTime":{"cf":"rowkey", "col":"browseTime", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
   val spark = SparkSession.builder()
     .appName("browseTime")
     .master("local[10]")
@@ -62,16 +70,30 @@ class BrowseTime {
       .drop("logout")
       .drop("sum")
 
+  val finalbrowseTimeW = result
+    .select('id,'browseTime)
+    .groupBy('browseTime)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
+
 
 
   def browseTimeWrite={
     source.show()
     result.show()
+    finalbrowseTimeW.show()
 
     try{
 
       result.write
         .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+      finalbrowseTimeW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()

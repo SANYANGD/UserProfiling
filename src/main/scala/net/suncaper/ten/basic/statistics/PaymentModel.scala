@@ -27,7 +27,16 @@ class PaymentModel {
        |  "paymentCode":{"cf":"biz", "col":"paymentCode", "type":"string"}
        |}
        |}""".stripMargin
-
+  
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"paymentCode",
+       |"columns":{
+       |"paymentCode":{"cf":"rowkey", "col":"paymentCode", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
   val spark = SparkSession.builder()
     .appName("PaymentModel")
     .master("local[10]")
@@ -47,15 +56,32 @@ class PaymentModel {
     .withColumnRenamed("memberId", "id").drop("count", "row_num")
   //val result = source.select('memberId, 'paymentCode).orderBy('memberId)
 
+
+  val finalPaymentCodeW = result
+    .select('id,'paymentCode)
+    .groupBy('paymentCode)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
+
+
   def payModelWrite ={
 
     source.show()
     result.show()
+    finalPaymentCodeW.show()
 
     try{
 
-      result.write
-        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//      result.write
+//        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//        .option(HBaseTableCatalog.newTable, "5")
+//        .format("org.apache.spark.sql.execution.datasources.hbase")
+//        .save()
+
+
+      finalPaymentCodeW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
