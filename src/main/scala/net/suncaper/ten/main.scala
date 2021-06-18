@@ -61,6 +61,12 @@ object main {
         val logFrequency = new LogFrequency
         logFrequency.logFrequencyWrite
 
+        val money = new Money
+        money.moneyWrite
+
+        val logSession = new LogSession
+        logSession.logSessionWrite
+
         val policemanMaxOrder = new PolicemanMaxOrder
 
         //发送信息后程序停止 秒
@@ -140,6 +146,9 @@ object main {
         val username = new Username
         username.usernameWrite
 
+        val ageGroup= new AgeGroup
+        ageGroup.ageGroupWrite
+
         //发送信息后程序停止3秒
         TimeUnit.SECONDS.sleep(60*60*24*365)
 
@@ -184,45 +193,12 @@ object main {
 
 //    val orderstatue = new OrderStatus
 //    orderstatue.orderStatusWrite
-//
-//    val money = new Money
-//    money.moneyWrite
 
-//    val spendingPower = new SpendingPowerRFM
-//    spendingPower.spendingPowerWrite
 
-//    val nationality = new Nationality
-//    nationality.nationalityWrite
-//
-//    val gender = new Gender
-//    gender.genderWrite
+    val prm = new ProductRecommendationModel
+    prm.pr()
 
-//    val marriage = new Marriage
-//    marriage.marriageWrite
 
-//    val logSession = new LogSession
-//    logSession.logSessionWrite
-
-//    val ageGroup= new AgeGroup
-//    ageGroup.ageGroupWrite
-
-//    val browseFrequency = new BrowseFrequency
-//    browseFrequency.browseFrequencyWrite
-
-//    val consumptionCycle = new ConsumptionCycle
-//    consumptionCycle.consumptionCycleWrite
-
-//    val constellation = new Constellation
-//    constellation.constellationWrite
-
-//    val browseTime = new BrowseTime
-//    browseTime.browseTimeWrite
-
-//    val paidAmount = new PaidAmount
-//    paidAmount.paidAmountWrite
-
-    val paymentModel = new PaymentModel
-    paymentModel.payModelWrite
   }
 
 }
