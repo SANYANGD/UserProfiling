@@ -173,17 +173,18 @@ object main {
 //    val orderstatue = new OrderStatus
 //    orderstatue.orderStatusWrite
 
-//    val registerTime = new RegisterTime
-//    registerTime.registerTimeWrite
+//    val browpage = new BrowsePage
+//    browpage.browsePageWrite
 
-//    val mobile = new Mobile
-//    mobile.mobileWrite
+//    val browFrequency = new BrowseFrequency
+//    browFrequency.browseFrequencyWrite
 
-//    val email = new Email
-//    email.emailWrite
+//    val browtime = new BrowseTime
+//    browtime.browseTimeWrite
 
-//    val username = new Username
-//    username.usernameWrite
+      val logFrequency = new LogFrequency
+      logFrequency.logFrequencyWrite
+
 
 //    val money = new Money
 //    money.moneyWrite
