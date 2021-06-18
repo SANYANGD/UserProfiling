@@ -60,6 +60,7 @@ class BrowseTime {
     .withColumnRenamed("global_user_id","id")
       .drop("login")
       .drop("logout")
+      .drop("sum")
 
 
 

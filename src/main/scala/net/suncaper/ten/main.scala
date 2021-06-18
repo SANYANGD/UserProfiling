@@ -49,6 +49,18 @@ object main {
         val prm = new ProductRecommendationModel
         prm.pr()
 
+        val browpage = new BrowsePage
+        browpage.browsePageWrite
+
+        val browFrequency = new BrowseFrequency
+        browFrequency.browseFrequencyWrite
+
+        val browtime = new BrowseTime
+        browtime.browseTimeWrite
+
+        val logFrequency = new LogFrequency
+        logFrequency.logFrequencyWrite
+
         val policemanMaxOrder = new PolicemanMaxOrder
 
         //发送信息后程序停止 秒
@@ -163,46 +175,19 @@ object main {
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
     //调用start方法启动
-//    new updateDay().start()
-//    new updateWeek().start()
-//    new updateHalfYear().start()
-//    new updateYear().start()
-//    new updateNone().start()
+    new updateDay().start()
+    new updateWeek().start()
+    new updateHalfYear().start()
+    new updateYear().start()
+    new updateNone().start()
 
 
 //    val orderstatue = new OrderStatus
 //    orderstatue.orderStatusWrite
-
-//    val browpage = new BrowsePage
-//    browpage.browsePageWrite
-
-//    val browFrequency = new BrowseFrequency
-//    browFrequency.browseFrequencyWrite
-
-//    val browtime = new BrowseTime
-//    browtime.browseTimeWrite
-
-      val logFrequency = new LogFrequency
-      logFrequency.logFrequencyWrite
-
-
+//
 //    val money = new Money
 //    money.moneyWrite
 
-//    val job = new Job
-//    job.jobWrite
-
-//    val politicalFace = new PoliticalFace
-//    politicalFace.politicalFaceWrite
-
-//    val nationality = new Nationality
-//    nationality.nationalityWrite
-//
-//    val gender = new Gender
-//    gender.genderWrite
-
-    val marriage = new Marriage
-    marriage.marriageWrite
   }
 
 }
