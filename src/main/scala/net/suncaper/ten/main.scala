@@ -43,8 +43,8 @@ object main {
         val goodsBought = new GoodsBought
         goodsBought.goodsBoughtWrite
 
-        val rfm = new RFMModel
-        rfm.rfmModelWrite
+        val spendingPower = new SpendingPowerRFM
+        spendingPower.spendingPowerWrite
 
         val prm = new ProductRecommendationModel
         prm.pr()
@@ -175,11 +175,11 @@ object main {
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
     //调用start方法启动
-    new updateDay().start()
-    new updateWeek().start()
-    new updateHalfYear().start()
-    new updateYear().start()
-    new updateNone().start()
+//    new updateDay().start()
+//    new updateWeek().start()
+//    new updateHalfYear().start()
+//    new updateYear().start()
+//    new updateNone().start()
 
 
 //    val orderstatue = new OrderStatus
@@ -187,6 +187,9 @@ object main {
 //
 //    val money = new Money
 //    money.moneyWrite
+
+    val spendingPower = new SpendingPowerRFM
+    spendingPower.spendingPowerWrite
 
   }
 
