@@ -176,8 +176,11 @@ object main {
 //    val browpage = new BrowsePage
 //    browpage.browsePageWrite
 
-      val browtime = new BrowseFrequency
-      browtime.browseFrequencyWrite
+//      val browFrequency = new BrowseFrequency
+//      browFrequency.browseFrequencyWrite
+
+    val browtime = new BrowseTime
+    browtime.browseTimeWrite
 
 
   }
