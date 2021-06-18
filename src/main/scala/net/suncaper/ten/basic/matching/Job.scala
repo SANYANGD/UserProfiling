@@ -26,6 +26,16 @@ class Job {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"job",
+       |"columns":{
+       |"job":{"cf":"rowkey", "col":"job", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+
   val spark = SparkSession.builder()
     .appName("shc test")
     .master("local[10]")
@@ -49,15 +59,29 @@ class Job {
       .otherwise("其他")
       .as("job")
   )
+  val finalJobW = jobW
+    .select('id,'job)
+    .groupBy('job)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
+
 
   def jobWrite={
     readDF.show()
     jobW.show()
+    finalJobW.show()
 
     try{
 
       jobW.write
         .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+      finalJobW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()

@@ -1,7 +1,7 @@
 package net.suncaper.ten.basic.matching
 
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
-import org.apache.spark.sql.functions.when
+import org.apache.spark.sql.functions.{format_number, when}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class Nationality {
@@ -27,6 +27,16 @@ class Nationality {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"nationality",
+       |"columns":{
+       |"nationality":{"cf":"rowkey", "col":"nationality", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+
   val spark = SparkSession.builder()
     .appName("nationality")
     .master("local[10]")
@@ -48,11 +58,18 @@ class Nationality {
       .otherwise("未知")
       .as("nationality"))
 
+  val finalNationalityW = result
+    .select('id,'nationality)
+    .groupBy('nationality)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
+
   def nationalityWrite = {
 
     readDF.show()
     result.show()
-
+    finalNationalityW.show()
     try{
 
       result.write
@@ -60,6 +77,13 @@ class Nationality {
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
+
+      finalNationalityW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
 
     }catch {
 

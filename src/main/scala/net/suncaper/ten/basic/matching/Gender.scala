@@ -26,6 +26,16 @@ class Gender {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"gender",
+       |"columns":{
+       |"gender":{"cf":"rowkey", "col":"gender", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+
   val spark = SparkSession.builder()
     .appName("gender")
     .master("local[10]")
@@ -44,12 +54,17 @@ class Gender {
       .otherwise("未知")
       .as("gender")
   )
-
+  val finalGenderW = genderW
+    .select('id,'gender)
+    .groupBy('gender)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
   def genderWrite = {
 
     readDF.show()
     genderW.show()
-
+    finalGenderW.show()
     try{
 
       genderW.write
@@ -58,6 +73,11 @@ class Gender {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+      finalGenderW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
     }catch {
 
       case ex: IllegalArgumentException =>

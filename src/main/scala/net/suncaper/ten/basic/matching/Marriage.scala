@@ -26,6 +26,16 @@ class Marriage {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"marriage",
+       |"columns":{
+       |"marriage":{"cf":"rowkey", "col":"marriage", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+
   val spark = SparkSession.builder()
     .appName("shc test")
     .master("local[10]")
@@ -46,11 +56,18 @@ class Marriage {
       .otherwise("其他")
       .as("marriage")
   )
+  val finalMarriageW = marriageW
+    .select('id,'marriage)
+    .groupBy('marriage)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
 
   def marriageWrite={
 
     readDF.show()
     marriageW.show()
+    finalMarriageW.show()
 
     try{
 
@@ -60,6 +77,11 @@ class Marriage {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+      finalMarriageW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
     }catch {
 
       case ex: IllegalArgumentException =>

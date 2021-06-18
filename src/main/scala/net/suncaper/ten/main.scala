@@ -185,8 +185,23 @@ object main {
 //    val username = new Username
 //    username.usernameWrite
 
-    val money = new Money
-    money.moneyWrite
+//    val money = new Money
+//    money.moneyWrite
+
+//    val job = new Job
+//    job.jobWrite
+
+//    val politicalFace = new PoliticalFace
+//    politicalFace.politicalFaceWrite
+
+//    val nationality = new Nationality
+//    nationality.nationalityWrite
+//
+//    val gender = new Gender
+//    gender.genderWrite
+
+    val marriage = new Marriage
+    marriage.marriageWrite
   }
 
 }
