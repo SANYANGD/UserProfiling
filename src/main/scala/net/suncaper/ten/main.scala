@@ -182,8 +182,8 @@ object main {
 //    val browtime = new BrowseTime
 //    browtime.browseTimeWrite
 
-      val logFrequency = new LogFrequency
-      logFrequency.logFrequencyWrite
+//      val logFrequency = new LogFrequency
+//      logFrequency.logFrequencyWrite
 
 
 //    val money = new Money
@@ -201,8 +201,24 @@ object main {
 //    val gender = new Gender
 //    gender.genderWrite
 
-    val marriage = new Marriage
-    marriage.marriageWrite
+//    val marriage = new Marriage
+//    marriage.marriageWrite
+
+//    val logSession = new LogSession
+//    logSession.logSessionWrite
+
+//    val ageGroup= new AgeGroup
+//    ageGroup.ageGroupWrite
+
+//    val browseFrequency = new BrowseFrequency
+//    browseFrequency.browseFrequencyWrite
+
+//    val consumptionCycle = new ConsumptionCycle
+//    consumptionCycle.consumptionCycleWrite
+
+    val constellation = new Constellation
+    constellation.constellationWrite
+
   }
 
 }

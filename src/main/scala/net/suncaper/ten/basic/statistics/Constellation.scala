@@ -1,9 +1,8 @@
 package net.suncaper.ten.basic.statistics
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions._
-
+import org.apache.spark.sql.{DataFrame, SparkSession}
 class Constellation {
 
   def catalog =
@@ -23,6 +22,16 @@ class Constellation {
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
        |"constellation":{"cf":"user", "col":"constellation", "type":"string"}
+       |}
+       |}""".stripMargin
+
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"constellation",
+       |"columns":{
+       |"constellation":{"cf":"rowkey", "col":"constellation", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -63,15 +72,29 @@ class Constellation {
   val result = spark.sql("select id, transCon(birthday) as constellation from tb")
     .toDF()
 
+  val finalConstellationW = result
+    .select("id","constellation")
+    .groupBy("constellation")
+    .count()
+    .withColumn("number",format_number(column("count"),0))
+    .drop("count")
+
   def constellationWrite={
 
-    readDF.show()
+//    readDF.show()
     result.show()
+    finalConstellationW.show()
 
     try{
 
-      result.write
-        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//      result.write
+//        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+//        .option(HBaseTableCatalog.newTable, "5")
+//        .format("org.apache.spark.sql.execution.datasources.hbase")
+//        .save()
+
+      finalConstellationW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()

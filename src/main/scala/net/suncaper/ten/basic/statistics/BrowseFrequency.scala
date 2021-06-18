@@ -26,7 +26,16 @@ class BrowseFrequency {
        |  "browseFrequency":{"cf":"log", "col":"browseFrequency", "type":"string"}
        |}
        |}""".stripMargin
-
+  
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"browseFrequency",
+       |"columns":{
+       |"browseFrequency":{"cf":"rowkey", "col":"browseFrequency", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
 
   val spark = SparkSession.builder()
     .appName("browseTime")
@@ -58,11 +67,18 @@ class BrowseFrequency {
       .drop("logTime")
       .drop("sum")
 
+  val finalBrowseFrequencyW = result
+    .select('id,'browseFrequency)
+    .groupBy('browseFrequency)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
 
 
   def browseFrequencyWrite={
     source.show()
     result.show()
+    finalBrowseFrequencyW.show()
 
     try{
 
@@ -72,6 +88,11 @@ class BrowseFrequency {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+      finalBrowseFrequencyW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
     }catch {
 
       case ex: IllegalArgumentException =>

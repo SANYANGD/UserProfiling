@@ -26,6 +26,16 @@ class AgeGroup {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"ageGroup",
+       |"columns":{
+       |"ageGroup":{"cf":"rowkey", "col":"ageGroup", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+
   val spark = SparkSession.builder()
     .appName("shc test")
     .master("local[10]")
@@ -51,14 +61,28 @@ class AgeGroup {
         .as("ageGroup")
     )
 
+  val finalAgeGroupW = ageGroupW
+    .select('id,'ageGroup)
+    .groupBy('ageGroup)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
+
   def ageGroupWrite={
     readDF.show()
     ageGroupW.show()
+    finalAgeGroupW.show()
 
     try{
 
       ageGroupW.write
         .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+      finalAgeGroupW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()

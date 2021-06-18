@@ -27,6 +27,16 @@ class ConsumptionCycle {
        |}
        |}""".stripMargin
 
+  def finalWrite =
+    s"""{
+       |"table":{"namespace":"default", "name":"final"},
+       |"rowkey":"consumptionCycle",
+       |"columns":{
+       |"consumptionCycle":{"cf":"rowkey", "col":"consumptionCycle", "type":"string"},
+       |"number":{"cf":"cf", "col":"val", "type":"string"}
+       |}
+       |}""".stripMargin
+  
   val spark = SparkSession.builder()
     .appName("ConsumptionCycle")
     .master("local[10]")
@@ -61,16 +71,28 @@ class ConsumptionCycle {
         otherwise( "近半年").
         as('consumptionCycle))
     .withColumnRenamed("memberId", "id").drop("temp")
-
+  
+  val finalConsumptionCycleW = result
+    .select('id,'consumptionCycle)
+    .groupBy('consumptionCycle)
+    .count()
+    .withColumn("number",format_number('count,0))
+    .drop('count)
   def consumptionCycleWrite ={
 
     source.show()
     result.show()
-
+    finalConsumptionCycleW.show()
     try{
 
       result.write
         .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+      
+      finalConsumptionCycleW.write
+        .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
@@ -85,11 +107,7 @@ class ConsumptionCycle {
 
     }
 
-    result.write
-      .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-      .option(HBaseTableCatalog.newTable, "5")
-      .format("org.apache.spark.sql.execution.datasources.hbase")
-      .save()
+   
 
     spark.close()
   }
