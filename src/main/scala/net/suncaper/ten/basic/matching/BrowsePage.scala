@@ -66,12 +66,10 @@ class BrowsePage {
 
 
   result = result.where("browsePage != '其他'")
-    .groupBy("id", "browsePage").agg(count("*").as("num")).drop("num")
+    .groupBy("id", "browsePage")
+    .agg(count("*").as("num"))
+    .drop("num")
 
-//  val window:WindowSpec = Window.partitionBy("id").orderBy("num")
-//
-//  result = result.select("id","BrowsePage","dense_rank() over window")
-//    //.where("rank = 1").drop("rank")
 
   def browsePageWrite={
     source.show()

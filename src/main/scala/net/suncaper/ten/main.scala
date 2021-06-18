@@ -173,8 +173,11 @@ object main {
 //    val orderstatue = new OrderStatus
 //    orderstatue.orderStatusWrite
 
-    val browpage = new BrowsePage
-    browpage.browsePageWrite
+//    val browpage = new BrowsePage
+//    browpage.browsePageWrite
+
+      val browtime = new BrowseFrequency
+      browtime.browseFrequencyWrite
 
 
   }
