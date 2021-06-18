@@ -6,7 +6,7 @@ import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{Column, DataFrame, SparkSession, functions}
 
-class RFMModel {
+class SpendingPowerRFM {
 
   def catalog =
     s"""{
@@ -27,7 +27,7 @@ class RFMModel {
        |"rowkey":"id",
        |"columns":{
        |  "id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |  "userValue":{"cf":"biz", "col":"userValue", "type":"string"}
+       |  "spendingPower":{"cf":"biz", "col":"spendingPower", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -95,7 +95,7 @@ class RFMModel {
 
   val kmeans = new KMeans()
     .setK(7)
-    .setSeed(100)
+    .setSeed(1000)
     .setMaxIter(2)
     .setFeaturesCol(colFeature)
     .setPredictionCol(colPredict)
@@ -103,19 +103,29 @@ class RFMModel {
   // train model
   val model = kmeans.fit(vectorDF)
 
+
+
   val predicted = model.transform(vectorDF)
 
   val result = predicted.select('*,
-    when('predict === "1", "高价值用户")
-      .when('predict === "0", "低价值用户")
+    when('predict === "0", "超高")
+      .when('predict === "1", "高")
+      .when('predict === "2", "中上")
+      .when('predict === "3", "中")
+      .when('predict === "4", "中下")
+      .when('predict === "5", "低")
+      .when('predict === "6", "很低")
       .otherwise("其他")
-      .as("userValue"))
+      .as("spendingPower"))
     .drop('rencency).drop('frequency)
     .drop('moneyTotal).drop('feature).drop('predict)
     .withColumnRenamed("memberId", "id")
 
   //TODO: 将结果写入HBASE
-  def rfmModelWrite={
+  def spendingPowerWrite={
+
+    //model.save("model/product/rfmmodel")
+
     predicted.show()
     result.show()
 
@@ -133,7 +143,7 @@ class RFMModel {
 
     }finally{
 
-      println("rfmModelWrite finish")
+      println("spendingPowerWrite finish")
 
     }
 

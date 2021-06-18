@@ -43,11 +43,23 @@ object main {
         val goodsBought = new GoodsBought
         goodsBought.goodsBoughtWrite
 
-        val rfm = new RFMModel
-        rfm.rfmModelWrite
+        val spendingPower = new SpendingPowerRFM
+        spendingPower.spendingPowerWrite
 
         val prm = new ProductRecommendationModel
         prm.pr()
+
+        val browpage = new BrowsePage
+        browpage.browsePageWrite
+
+        val browFrequency = new BrowseFrequency
+        browFrequency.browseFrequencyWrite
+
+        val browtime = new BrowseTime
+        browtime.browseTimeWrite
+
+        val logFrequency = new LogFrequency
+        logFrequency.logFrequencyWrite
 
         val policemanMaxOrder = new PolicemanMaxOrder
 
@@ -172,28 +184,12 @@ object main {
 
 //    val orderstatue = new OrderStatus
 //    orderstatue.orderStatusWrite
-
-//    val browpage = new BrowsePage
-//    browpage.browsePageWrite
-
-//    val browFrequency = new BrowseFrequency
-//    browFrequency.browseFrequencyWrite
-
-//    val browtime = new BrowseTime
-//    browtime.browseTimeWrite
-
-//      val logFrequency = new LogFrequency
-//      logFrequency.logFrequencyWrite
-
-
+//
 //    val money = new Money
 //    money.moneyWrite
 
-//    val job = new Job
-//    job.jobWrite
-
-//    val politicalFace = new PoliticalFace
-//    politicalFace.politicalFaceWrite
+    val spendingPower = new SpendingPowerRFM
+    spendingPower.spendingPowerWrite
 
 //    val nationality = new Nationality
 //    nationality.nationalityWrite
