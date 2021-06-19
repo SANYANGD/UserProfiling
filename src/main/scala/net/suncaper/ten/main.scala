@@ -8,6 +8,7 @@ import net.suncaper.ten.basic.matching._
 import net.suncaper.ten.basic.mining._
 import net.suncaper.ten.basic.statistics._
 import net.suncaper.ten.comb.PolicemanMaxOrder
+import net.suncaper.ten.test.ProductRecommendationModel
 import org.apache.log4j.{Level, Logger}
 
 import scala.actors.Actor
@@ -45,9 +46,6 @@ object main {
 
         val spendingPower = new SpendingPowerRFM
         spendingPower.spendingPowerWrite
-
-        val prm = new ProductRecommendationModel
-        prm.pr()
 
         val browpage = new BrowsePage
         browpage.browsePageWrite
@@ -195,8 +193,6 @@ object main {
 //    orderstatue.orderStatusWrite
 
 
-    val prm = new ProductRecommendationModel
-    prm.pr()
 
 
   }
