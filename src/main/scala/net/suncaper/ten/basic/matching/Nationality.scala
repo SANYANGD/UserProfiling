@@ -72,12 +72,6 @@ class Nationality {
     finalNationalityW.show()
     try{
 
-      result.write
-        .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
-        .option(HBaseTableCatalog.newTable, "5")
-        .format("org.apache.spark.sql.execution.datasources.hbase")
-        .save()
-
       finalNationalityW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -94,7 +88,23 @@ class Nationality {
       println("nationalityWrite finish")
 
     }
+    try{
 
+      result.write
+        .option(HBaseTableCatalog.tableCatalog, catalogGenderWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("nationalityFinalWrite finish")
+
+    }
 
 
     spark.close()

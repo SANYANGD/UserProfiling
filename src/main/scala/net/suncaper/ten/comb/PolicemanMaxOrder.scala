@@ -83,7 +83,7 @@ class PolicemanMaxOrder {
     .join(orderDF,joinExpression)
     .where('gender === "男")
     .where('job === "警察")
-    .where('maxOrderAmount === "10000-")
+    .where('maxOrderAmount === "最高：10000-")
 
   val PolicemanMaxOrderW = PolicemanMaxOrderS
       .select('user_id,'maxOrderAmount,'ageGroup,'birthday,'gender,'job,

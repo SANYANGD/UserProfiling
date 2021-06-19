@@ -90,7 +90,19 @@ class ConsumptionCycle {
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
-      
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("consumptionCycleWrite finish")
+
+    }
+
+    try{
+
       finalConsumptionCycleW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -103,11 +115,10 @@ class ConsumptionCycle {
 
     }finally{
 
-      println("consumptionCycleWrite finish")
+      println("consumptionCycleFinalWrite finish")
 
     }
 
-   
 
     spark.close()
   }

@@ -76,6 +76,17 @@ class PoliticalFace {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("politicalFaceWrite finish")
+
+    }
+    try{
+
       finalPoliticalFaceW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -88,7 +99,7 @@ class PoliticalFace {
 
     }finally{
 
-      println("politicalFaceWrite finish")
+      println("politicalFaceFinalWrite finish")
 
     }
 

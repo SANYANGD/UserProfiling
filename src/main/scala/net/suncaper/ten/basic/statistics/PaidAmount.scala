@@ -65,14 +65,14 @@ class PaidAmount {
     .agg(avg('orderAmount) as "avg", max('orderAmount) as "max")
 
   result = result.select('*,
-    when('avg <= 999 and ('avg > 1), "单价：1-999").
+    when('avg <= 999 and ('avg >= 0), "单价：0-999").
       when('avg <= 2999 and ('avg > 999), "单价：1000-2999").
       when('avg <= 4999 and ('avg > 2999), "单价：3000-4999").
       when('avg <= 9999 and ('avg > 4999), "单价：5000-9999").
       otherwise("单价：10000-").as("avgOrderAmount")).drop("avg")
 
   result = result.select('*,
-    when('max <= 999 and ('max > 1), "最高：1-999").
+    when('max <= 999 and ('max >= 0), "最高：0-999").
       when('max <= 2999 and ('max > 999), "最高：1000-2999").
       when('max <= 4999 and ('max > 2999), "最高：3000-4999").
       when('max <= 9999 and ('max > 4999), "最高：5000-9999").
@@ -95,29 +95,16 @@ class PaidAmount {
   
   def paidAmountWrite = {
 
-//    source.show()
-//    result.show()
-//    finalPaidAmountW.show()
-//    finalAvgPaidAmountW.show()
+    source.show()
+    result.show()
+    finalPaidAmountW.show()
+    finalAvgPaidAmountW.show()
     try{
-
-//      result.write
-//        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-//        .option(HBaseTableCatalog.newTable, "5")
-//        .format("org.apache.spark.sql.execution.datasources.hbase")
-//        .save()
-
-      finalPaidAmountW.write
-        .option(HBaseTableCatalog.tableCatalog, finalWrite)
+      result.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
-
-//      finalAvgPaidAmountW.write
-//        .option(HBaseTableCatalog.tableCatalog, finalAvgWrite)
-//        .option(HBaseTableCatalog.newTable, "5")
-//        .format("org.apache.spark.sql.execution.datasources.hbase")
-//        .save()
     }catch {
 
       case ex: IllegalArgumentException =>
@@ -128,8 +115,36 @@ class PaidAmount {
 
     }
 
+    try{
+            finalPaidAmountW.write
+              .option(HBaseTableCatalog.tableCatalog, finalWrite)
+              .option(HBaseTableCatalog.newTable, "5")
+              .format("org.apache.spark.sql.execution.datasources.hbase")
+              .save()
+    }catch {
 
+      case ex: IllegalArgumentException =>
 
+    }finally{
+
+      println("FinalPaidAmount finish")
+
+    }
+    try{
+            finalAvgPaidAmountW.write
+              .option(HBaseTableCatalog.tableCatalog, finalAvgWrite)
+              .option(HBaseTableCatalog.newTable, "5")
+              .format("org.apache.spark.sql.execution.datasources.hbase")
+              .save()
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("AvgPaidAmount finish")
+
+    }
     spark.close()
 
   }

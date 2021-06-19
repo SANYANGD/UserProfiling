@@ -81,6 +81,18 @@ class LogSession {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("logSessionWrite finish")
+
+    }
+
+    try{
+
       finalLogSessionW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -93,7 +105,7 @@ class LogSession {
 
     }finally{
 
-      println("logSessionWrite finish")
+      println("logSessionFinalWrite finish")
 
     }
 
