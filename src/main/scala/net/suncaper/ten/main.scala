@@ -68,6 +68,17 @@ object main {
         val manMaxOrder = new ManMaxOrder
         manMaxOrder.ManMaxOrderWrite
 
+        val oftenLeoFemale = new OftenLeoFemale
+        oftenLeoFemale.OftenLeoFemaleWrite
+
+
+        val myALSModel = new MyALSModel
+        myALSModel.myALSModel()
+
+        val cateFeaturedModel = new CateFeaturedModel
+        cateFeaturedModel.cateFeaturedModel
+
+
         //发送信息后程序停止 秒
         TimeUnit.SECONDS.sleep(60*60*24)
       }
@@ -183,43 +194,18 @@ object main {
     Logger.getLogger("org.apache").setLevel(Level.ERROR)
 
     //调用start方法启动
-//    new updateDay().start()
-//    new updateWeek().start()
-//    new updateHalfYear().start()
-//    new updateYear().start()
-//    new updateNone().start()
+    new updateDay().start()
+    new updateWeek().start()
+    new updateHalfYear().start()
+    new updateYear().start()
+    new updateNone().start()
 
 
 //    val orderstatue = new OrderStatus
 //    orderstatue.orderStatusWrite
 
 
-//    val prm = new ProductRecommendationModel
-//    prm.pr()
 
-//    val browseFrequency = new BrowseFrequency
-//    browseFrequency.browseFrequencyWrite
-
-//    val consumptionCycle = new ConsumptionCycle
-//    consumptionCycle.consumptionCycleWrite
-
-//    val constellation = new Constellation
-//    constellation.constellationWrite
-
-//    val browseTime = new BrowseTime
-//    browseTime.browseTimeWrite
-
-//    val paidAmount = new PaidAmount
-//    paidAmount.paidAmountWrite
-
-//    val paymentModel = new PaymentModel
-//    paymentModel.payModelWrite
-
-    val oftenLeoFemale = new OftenLeoFemale
-    oftenLeoFemale.OftenLeoFemaleWrite
-
-//    val manMaxOrder = new ManMaxOrder
-//    manMaxOrder.ManMaxOrderWrite
   }
 
 }
