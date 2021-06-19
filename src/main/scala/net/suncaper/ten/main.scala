@@ -12,6 +12,7 @@ import org.apache.log4j.{Level, Logger}
 
 import scala.actors.Actor
 import scala.actors.threadpool.TimeUnit
+import net.suncaper.ten.test.ProductRecommendationModel
 
 
 
@@ -45,9 +46,6 @@ object main {
 
         val spendingPower = new SpendingPowerRFM
         spendingPower.spendingPowerWrite
-
-        val prm = new ProductRecommendationModel
-        prm.pr()
 
         val browpage = new BrowsePage
         browpage.browsePageWrite
