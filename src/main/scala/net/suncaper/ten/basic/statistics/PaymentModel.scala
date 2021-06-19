@@ -73,13 +73,22 @@ class PaymentModel {
 
     try{
 
-//      result.write
-//        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-//        .option(HBaseTableCatalog.newTable, "5")
-//        .format("org.apache.spark.sql.execution.datasources.hbase")
-//        .save()
+      result.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
 
+    }catch {
 
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("payModelWrite finish")
+
+    }
+    try{
       finalPaymentCodeW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -92,7 +101,7 @@ class PaymentModel {
 
     }finally{
 
-      println("payModelWrite finish")
+      println("payModelFinalWrite finish")
 
     }
 

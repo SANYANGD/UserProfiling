@@ -75,12 +75,6 @@ class AgeGroup {
 
     try{
 
-      ageGroupW.write
-        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
-        .option(HBaseTableCatalog.newTable, "5")
-        .format("org.apache.spark.sql.execution.datasources.hbase")
-        .save()
-
       finalAgeGroupW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -94,6 +88,23 @@ class AgeGroup {
     }finally{
 
       println("ageGroupW finish")
+
+    }
+    try{
+
+      ageGroupW.write
+        .option(HBaseTableCatalog.tableCatalog, catalogWrite)
+        .option(HBaseTableCatalog.newTable, "5")
+        .format("org.apache.spark.sql.execution.datasources.hbase")
+        .save()
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("ageGroupFinalW finish")
 
     }
 

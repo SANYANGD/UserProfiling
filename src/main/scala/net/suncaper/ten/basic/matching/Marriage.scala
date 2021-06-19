@@ -76,7 +76,16 @@ class Marriage {
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
+    }catch {
 
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("marriageW finish")
+
+    }
+    try{
       finalMarriageW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -88,7 +97,7 @@ class Marriage {
 
     }finally{
 
-      println("marriageW finish")
+      println("marriageFinalW finish")
 
     }
 

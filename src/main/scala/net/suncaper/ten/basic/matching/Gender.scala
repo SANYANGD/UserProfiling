@@ -73,6 +73,18 @@ class Gender {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("genderWrite finish")
+
+    }
+
+    try{
+
       finalGenderW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -84,7 +96,7 @@ class Gender {
 
     }finally{
 
-      println("genderWrite finish")
+      println("genderFinalWrite finish")
 
     }
 

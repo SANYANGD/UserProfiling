@@ -92,6 +92,19 @@ class BrowseTime {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("browseTimeWrite finish")
+
+    }
+
+    try{
+
       finalbrowseTimeW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")

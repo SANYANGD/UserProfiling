@@ -80,6 +80,17 @@ class Job {
         .format("org.apache.spark.sql.execution.datasources.hbase")
         .save()
 
+    }catch {
+
+      case ex: IllegalArgumentException =>
+
+    }finally{
+
+      println("jobWrite finish")
+
+    }
+    try{
+
       finalJobW.write
         .option(HBaseTableCatalog.tableCatalog, finalWrite)
         .option(HBaseTableCatalog.newTable, "5")
@@ -92,7 +103,7 @@ class Job {
 
     }finally{
 
-      println("jobWrite finish")
+      println("jobFinalWrite finish")
 
     }
 
