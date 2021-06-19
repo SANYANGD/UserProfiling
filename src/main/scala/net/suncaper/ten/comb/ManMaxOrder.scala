@@ -3,7 +3,7 @@ package net.suncaper.ten.comb
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 
-class PolicemanMaxOrder {
+class ManMaxOrder {
   //单笔最高10000以上的男警察
   //用到的表
   //user:gender
@@ -17,6 +17,7 @@ class PolicemanMaxOrder {
        |"rowkey":"id",
        |"columns":{
        |"user_id":{"cf":"rowkey","col":"id", "type":"string"},
+       |"username":{"cf":"user","col":"username","type":"string"},
        |"ageGroup":{"cf":"user","col":"ageGroup","type":"string"},
        |"birthday":{"cf":"user","col":"birthday","type":"string"},
        |"gender":{"cf":"user","col":"gender","type":"string"},
@@ -26,6 +27,7 @@ class PolicemanMaxOrder {
        |"marriage":{"cf":"user","col":"marriage","type":"string"},
        |"politicalFace":{"cf":"user","col":"politicalFace","type":"string"},
        |"qq":{"cf":"user","col":"qq","type":"string"},
+       |"mobile":{"cf":"user","col":"mobile","type":"string"},
        |"source":{"cf":"user","col":"source","type":"string"}
        |}
        |}""".stripMargin
@@ -48,17 +50,19 @@ class PolicemanMaxOrder {
        |"rowkey":"id",
        |"columns":{
        |"user_id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"maxOrderAmount":{"cf":"comb", "col":"maxOrderAmount", "type":"string"},
-       |"ageGroup":{"cf":"comb","col":"ageGroup","type":"string"},
-       |"birthday":{"cf":"comb","col":"birthday","type":"string"},
-       |"gender":{"cf":"comb","col":"gender","type":"string"},
-       |"job":{"cf":"comb","col":"job","type":"string"},
-       |"lastAddressId":{"cf":"comb","col":"lastAddressId","type":"string"},
-       |"nationality":{"cf":"comb","col":"nationality","type":"string"},
-       |"marriage":{"cf":"comb","col":"marriage","type":"string"},
-       |"politicalFace":{"cf":"comb","col":"politicalFace","type":"string"},
-       |"qq":{"cf":"comb","col":"qq","type":"string"},
-       |"source":{"cf":"comb","col":"source","type":"string"}
+       |"username":{"cf":"80sManMaxOrder","col":"username","type":"string"},
+       |"maxOrderAmount":{"cf":"80sManMaxOrder", "col":"maxOrderAmount", "type":"string"},
+       |"ageGroup":{"cf":"80sManMaxOrder","col":"ageGroup","type":"string"},
+       |"birthday":{"cf":"80sManMaxOrder","col":"birthday","type":"string"},
+       |"gender":{"cf":"80sManMaxOrder","col":"gender","type":"string"},
+       |"job":{"cf":"80sManMaxOrder","col":"job","type":"string"},
+       |"lastAddressId":{"cf":"80sManMaxOrder","col":"lastAddressId","type":"string"},
+       |"nationality":{"cf":"80sManMaxOrder","col":"nationality","type":"string"},
+       |"marriage":{"cf":"80sManMaxOrder","col":"marriage","type":"string"},
+       |"politicalFace":{"cf":"80sManMaxOrder","col":"politicalFace","type":"string"},
+       |"qq":{"cf":"80sManMaxOrder","col":"qq","type":"string"},
+       |"mobile":{"cf":"80sManMaxOrder","col":"mobile","type":"string"},
+       |"source":{"cf":"80sManMaxOrder","col":"source","type":"string"}
        |}
        |}""".stripMargin
 
@@ -79,25 +83,24 @@ class PolicemanMaxOrder {
 
   val joinExpression = userDF.col("user_id") === orderDF.col("id")
 
-  val PolicemanMaxOrderS = userDF
+  val ManMaxOrderS = userDF
     .join(orderDF,joinExpression)
     .where('gender === "男")
-    .where('job === "警察")
-    .where('maxOrderAmount === "最高：10000-")
+    .where('ageGroup === "80后")
+    .where('maxOrderAmount === "最高：5000-9999")
 
-  val PolicemanMaxOrderW = PolicemanMaxOrderS
-      .select('user_id,'maxOrderAmount,'ageGroup,'birthday,'gender,'job,
-        'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'source)
+  val ManMaxOrderW = ManMaxOrderS
+      .select('user_id,'username,'maxOrderAmount,'ageGroup,'birthday,'gender,'job,
+        'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'mobile,'source)
 
 
-  def PolicemanMaxOrderWrite ={
+  def ManMaxOrderWrite ={
 
-    PolicemanMaxOrderS
-      .show()
+    ManMaxOrderS.show()
 
     try{
 
-      PolicemanMaxOrderW.write
+      ManMaxOrderW.write
         .option(HBaseTableCatalog.tableCatalog, catalogWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
@@ -109,7 +112,7 @@ class PolicemanMaxOrder {
 
     }finally{
 
-      println("PolicemanMaxOrderWrite finish")
+      println("ManMaxOrderWrite finish")
 
     }
 

@@ -17,6 +17,7 @@ class OftenLeoFemale {
        |"rowkey":"id",
        |"columns":{
        |"user_id":{"cf":"rowkey","col":"id", "type":"string"},
+       |"username":{"cf":"user","col":"username","type":"string"},
        |"ageGroup":{"cf":"user","col":"ageGroup","type":"string"},
        |"birthday":{"cf":"user","col":"birthday","type":"string"},
        |"constellation":{"cf":"user","col":"constellation","type":"string"},
@@ -50,6 +51,7 @@ class OftenLeoFemale {
        |"rowkey":"id",
        |"columns":{
        |"user_id":{"cf":"rowkey", "col":"id", "type":"string"},
+       |"username":{"cf":"oftenLeoFemale","col":"username","type":"string"},
        |"browseFrequency":{"cf":"oftenLeoFemale", "col":"browseFrequency", "type":"string"},
        |"ageGroup":{"cf":"oftenLeoFemale","col":"ageGroup","type":"string"},
        |"birthday":{"cf":"oftenLeoFemale","col":"birthday","type":"string"},
@@ -90,7 +92,7 @@ class OftenLeoFemale {
     .where('browseFrequency === "经常")
 
   val OftenLeoFemaleW = OftenLeoFemaleS
-    .select('user_id,'browseFrequency,'ageGroup,'birthday,'constellation,'gender,'job,
+    .select('user_id,'username,'browseFrequency,'ageGroup,'birthday,'constellation,'gender,'job,
       'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'mobile,'source)
 
 
