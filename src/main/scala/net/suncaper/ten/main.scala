@@ -193,27 +193,10 @@ object main {
 //    orderstatue.orderStatusWrite
 
 
-
-//    val browseFrequency = new BrowseFrequency
-//    browseFrequency.browseFrequencyWrite
-
-//    val consumptionCycle = new ConsumptionCycle
-//    consumptionCycle.consumptionCycleWrite
-
-//    val constellation = new Constellation
-//    constellation.constellationWrite
-
-//    val browseTime = new BrowseTime
-//    browseTime.browseTimeWrite
-
-    val paidAmount = new PaidAmount
-    paidAmount.paidAmountWrite
-
-//    val paymentModel = new PaymentModel
-//    paymentModel.payModelWrite
-
 //    val oftenLeoFemale = new OftenLeoFemale
 //    oftenLeoFemale.OftenLeoFemaleWrite
+
+
   }
 
 }
