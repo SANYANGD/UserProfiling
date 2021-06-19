@@ -3,8 +3,8 @@ package net.suncaper.ten.comb
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog
 
-class PolicemanMaxOrder {
-  //单笔最高10000以上的男警察
+class OftenLeoFemale {
+  //经常登录的狮子座女性
   //用到的表
   //user:gender
   //user:ageGroup
@@ -19,6 +19,7 @@ class PolicemanMaxOrder {
        |"user_id":{"cf":"rowkey","col":"id", "type":"string"},
        |"ageGroup":{"cf":"user","col":"ageGroup","type":"string"},
        |"birthday":{"cf":"user","col":"birthday","type":"string"},
+       |"constellation":{"cf":"user","col":"constellation","type":"string"},
        |"gender":{"cf":"user","col":"gender","type":"string"},
        |"job":{"cf":"user","col":"job","type":"string"},
        |"lastAddressId":{"cf":"user","col":"lastAddressId","type":"string"},
@@ -26,6 +27,7 @@ class PolicemanMaxOrder {
        |"marriage":{"cf":"user","col":"marriage","type":"string"},
        |"politicalFace":{"cf":"user","col":"politicalFace","type":"string"},
        |"qq":{"cf":"user","col":"qq","type":"string"},
+       |"mobile":{"cf":"user","col":"mobile","type":"string"},
        |"source":{"cf":"user","col":"source","type":"string"}
        |}
        |}""".stripMargin
@@ -33,11 +35,11 @@ class PolicemanMaxOrder {
   //查询aft_basic_biz
   def catalog2 =
     s"""{
-       |"table":{"namespace":"default", "name":"aft_basic_biz"},
+       |"table":{"namespace":"default", "name":"aft_basic_log"},
        |"rowkey":"id",
        |"columns":{
        |"id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"maxOrderAmount":{"cf":"biz", "col":"maxOrderAmount", "type":"string"}
+       |"browseFrequency":{"cf":"log", "col":"browseFrequency", "type":"string"}
        |}
        |}""".stripMargin
 
@@ -48,17 +50,19 @@ class PolicemanMaxOrder {
        |"rowkey":"id",
        |"columns":{
        |"user_id":{"cf":"rowkey", "col":"id", "type":"string"},
-       |"maxOrderAmount":{"cf":"comb", "col":"maxOrderAmount", "type":"string"},
-       |"ageGroup":{"cf":"comb","col":"ageGroup","type":"string"},
-       |"birthday":{"cf":"comb","col":"birthday","type":"string"},
-       |"gender":{"cf":"comb","col":"gender","type":"string"},
-       |"job":{"cf":"comb","col":"job","type":"string"},
-       |"lastAddressId":{"cf":"comb","col":"lastAddressId","type":"string"},
-       |"nationality":{"cf":"comb","col":"nationality","type":"string"},
-       |"marriage":{"cf":"comb","col":"marriage","type":"string"},
-       |"politicalFace":{"cf":"comb","col":"politicalFace","type":"string"},
-       |"qq":{"cf":"comb","col":"qq","type":"string"},
-       |"source":{"cf":"comb","col":"source","type":"string"}
+       |"browseFrequency":{"cf":"oftenLeoFemale", "col":"browseFrequency", "type":"string"},
+       |"ageGroup":{"cf":"oftenLeoFemale","col":"ageGroup","type":"string"},
+       |"birthday":{"cf":"oftenLeoFemale","col":"birthday","type":"string"},
+       |"constellation":{"cf":"oftenLeoFemale","col":"constellation","type":"string"},
+       |"gender":{"cf":"oftenLeoFemale","col":"gender","type":"string"},
+       |"job":{"cf":"oftenLeoFemale","col":"job","type":"string"},
+       |"lastAddressId":{"cf":"oftenLeoFemale","col":"lastAddressId","type":"string"},
+       |"nationality":{"cf":"oftenLeoFemale","col":"nationality","type":"string"},
+       |"marriage":{"cf":"oftenLeoFemale","col":"marriage","type":"string"},
+       |"politicalFace":{"cf":"oftenLeoFemale","col":"politicalFace","type":"string"},
+       |"qq":{"cf":"oftenLeoFemale","col":"qq","type":"string"},
+       |"mobile":{"cf":"oftenLeoFemale","col":"mobile","type":"string"},
+       |"source":{"cf":"oftenLeoFemale","col":"source","type":"string"}
        |}
        |}""".stripMargin
 
@@ -79,25 +83,25 @@ class PolicemanMaxOrder {
 
   val joinExpression = userDF.col("user_id") === orderDF.col("id")
 
-  val PolicemanMaxOrderS = userDF
+  val OftenLeoFemaleS = userDF
     .join(orderDF,joinExpression)
-    .where('gender === "男")
-    .where('job === "警察")
-    .where('maxOrderAmount === "10000-")
+    .where('gender === "女")
+    .where('constellation === "狮子座")
+    .where('browseFrequency === "经常")
 
-  val PolicemanMaxOrderW = PolicemanMaxOrderS
-      .select('user_id,'maxOrderAmount,'ageGroup,'birthday,'gender,'job,
-        'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'source)
+  val OftenLeoFemaleW = OftenLeoFemaleS
+    .select('user_id,'browseFrequency,'ageGroup,'birthday,'constellation,'gender,'job,
+      'lastAddressId,'nationality,'marriage, 'politicalFace,'qq,'mobile,'source)
 
 
-  def PolicemanMaxOrderWrite ={
+  def OftenLeoFemaleWrite ={
 
-    PolicemanMaxOrderS
+    OftenLeoFemaleS
       .show()
 
     try{
 
-      PolicemanMaxOrderW.write
+      OftenLeoFemaleW.write
         .option(HBaseTableCatalog.tableCatalog, catalogWrite)
         .option(HBaseTableCatalog.newTable, "5")
         .format("org.apache.spark.sql.execution.datasources.hbase")
@@ -109,7 +113,7 @@ class PolicemanMaxOrder {
 
     }finally{
 
-      println("PolicemanMaxOrderWrite finish")
+      println("OftenLeoFemaleWrite finish")
 
     }
 

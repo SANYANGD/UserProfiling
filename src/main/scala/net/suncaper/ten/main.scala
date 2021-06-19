@@ -7,7 +7,7 @@ import java.util.Date
 import net.suncaper.ten.basic.matching._
 import net.suncaper.ten.basic.mining._
 import net.suncaper.ten.basic.statistics._
-import net.suncaper.ten.comb.PolicemanMaxOrder
+import net.suncaper.ten.comb.{OftenLeoFemale, PolicemanMaxOrder}
 import org.apache.log4j.{Level, Logger}
 
 import scala.actors.Actor
@@ -221,8 +221,11 @@ object main {
 //    val paidAmount = new PaidAmount
 //    paidAmount.paidAmountWrite
 
-    val paymentModel = new PaymentModel
-    paymentModel.payModelWrite
+//    val paymentModel = new PaymentModel
+//    paymentModel.payModelWrite
+
+    val oftenLeoFemale = new OftenLeoFemale
+    oftenLeoFemale.OftenLeoFemaleWrite
   }
 
 }
