@@ -75,8 +75,8 @@ object main {
         val myALSModel = new MyALSModel
         myALSModel.myALSModel()
 
-        val cateFeaturedModel = new CateFeaturedModel
-        cateFeaturedModel.cateFeaturedModel
+//        val cateFeaturedModel = new CateFeaturedModel
+//        cateFeaturedModel.cateFeaturedModel
 
 
         //发送信息后程序停止 秒
@@ -201,8 +201,6 @@ object main {
     new updateNone().start()
 
 
-//    val orderstatue = new OrderStatus
-//    orderstatue.orderStatusWrite
 
 
 
